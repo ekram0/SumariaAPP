@@ -2,6 +2,7 @@
 {
     public class Clan
     {
+
         public int Id { get; set; }
         public string ClanNamr { get; set; }
     }
