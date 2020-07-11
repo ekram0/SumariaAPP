@@ -10,13 +10,16 @@ using System.Threading.Tasks;
 
 namespace EFCore.Data
 {
-    public class SamuriaContext :DbContext
+    public class SamuriaContextNoTracking : DbContext
     {
 
         public DbSet<Samurai> Samurais { get; set; }
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Clan> Clans { get; set; }
         public DbSet<Battle> Battles { get; set; }
+
+        public SamuriaContextNoTracking() 
+            => ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
