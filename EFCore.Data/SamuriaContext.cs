@@ -17,6 +17,7 @@ namespace EFCore.Data
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Clan> Clans { get; set; }
         public DbSet<Battle> Battles { get; set; }
+        public DbSet<SamuraiBattleStat> SamuraiBattleStats { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,6 +35,9 @@ namespace EFCore.Data
                 .HasKey(s => new { s.BattleID , s.SamuriaID });
 
             modelBuilder.Entity<Horse>().ToTable("Horses");
+
+            modelBuilder.Entity<SamuraiBattleStat>()
+                .HasNoKey().ToView("SamuraiBattleStats");
 
         }
 
