@@ -45,7 +45,8 @@ namespace ConsoleApp
             //QuerySamuraiBattleStats();
             //queryUsingRawSql();
             //queryUsingRawSqlStoreProcedure();
-            ExecuteSomeRaqSql();
+            //ExecuteSomeRaqSql();
+            InsertMultipleSamurais();
             Console.WriteLine("Press any key");
             Console.ReadLine();
 
@@ -78,7 +79,7 @@ namespace ConsoleApp
             samurias.ForEach(x => Console.WriteLine(x.Name));
         }
 
-        private static void InsertMultipleSamurais()
+        private static void InsertMultipleSamurais2()
         {
             var samuria = new Samurai { Name = "Sampson" };
             var samuria2 = new Samurai { Name = "Julia" };
@@ -86,6 +87,13 @@ namespace ConsoleApp
             var samuria4 = new Samurai { Name = "Julia" };
             Context.Samurais.AddRange(samuria, samuria2, samuria3);
             Context.SaveChanges();
+        }
+
+        private static void InsertMultipleSamurais()
+        {
+            var _bizdata = new BusinessDataLogic();
+            var samuraiNames = new string[] { "Sampson", "Tasha", "Number3", "Number4" };
+            var newSamuraisCreated = _bizdata.AddMultipleSamurais(samuraiNames);
         }
 
         private static void QueryFilter()
@@ -270,14 +278,14 @@ namespace ConsoleApp
             quote.Text += "Did you hear that again again?";
 
             using var newContext = new SamuriaContext();
-            newContext.Entry(quote).State =EntityState.Modified;
+            newContext.Entry(quote).State = EntityState.Modified;
             newContext.SaveChanges();
 
         }
 
         private static void JoinBattleAndSamurai()
         {
-            var sbJoin = new SamuraiBattle { BattleID =1 , SamuriaID=1 };
+            var sbJoin = new SamuraiBattle { BattleID = 1, SamuriaID = 1 };
             Context.Add(sbJoin);
             Context.SaveChanges();
         }
@@ -285,7 +293,7 @@ namespace ConsoleApp
         private static void EnlistSamuariIntoBattle()
         {
             var battle = Context.Battles.Find(1);
-            battle.SamuraiBattles.Add(new SamuraiBattle { BattleID=1});
+            battle.SamuraiBattles.Add(new SamuraiBattle { BattleID = 1 });
             Context.SaveChanges();
         }
 
@@ -336,7 +344,7 @@ namespace ConsoleApp
             samurai.Horse = new Horse { Name = "Mr. sa" };
 
             using var newContext = new SamuriaContext();
-            newContext.Attach(samurai); 
+            newContext.Attach(samurai);
             newContext.SaveChanges();
         }
 
@@ -367,7 +375,7 @@ namespace ConsoleApp
                 .Where(s => s.Horse != null)
                 .Select(s => new { Horse = s.Horse, Samurai = s })
                 .ToList();
-            
+
         }
 
         public static void GetSamuraiWithClan()
@@ -400,7 +408,7 @@ namespace ConsoleApp
 
             var samurias = Context.Samurais
                 .FromSqlRaw("select * from Samurais")
-                .Include(s=>s.Quotes).ToList();
+                .Include(s => s.Quotes).ToList();
         }
 
         public static void queryUsingRawSqlStoreProcedure()
